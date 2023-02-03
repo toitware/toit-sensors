@@ -1,1 +1,4 @@
 name: sensors
+description: Generic sensor APIs for applications and drivers.
+environment:
+  sdk: ^2.0.0-alpha.51

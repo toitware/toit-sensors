@@ -3,13 +3,13 @@
 // found in the LICENSE file.
 
 import system.services
-import ..temperature as api
+import ..humidity as api
 
-class TemperatureService extends services.ServiceClient implements api.TemperatureService:
-  static SELECTOR ::= api.TemperatureService.SELECTOR
+class HumidityService extends services.ServiceClient implements api.HumidityService:
+  static SELECTOR ::= api.HumidityService.SELECTOR
   constructor selector/services.ServiceSelector=SELECTOR:
     assert: selector.matches SELECTOR
     super selector
 
   read -> float:
-    return invoke_ api.TemperatureService.READ_INDEX null
+    return invoke_ api.HumidityService.READ_INDEX null
