@@ -12,4 +12,4 @@ class HumidityService extends services.ServiceClient implements api.HumidityServ
     super selector
 
   read -> float:
-    return invoke_ api.HumidityService.READ_INDEX null
+    return invoke_ api.HumidityService.READ-INDEX null

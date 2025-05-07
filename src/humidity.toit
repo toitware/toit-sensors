@@ -13,7 +13,7 @@ interface HumidityService:
       --minor=0
 
   read -> float
-  static READ_INDEX ::= 0
+  static READ-INDEX ::= 0
 
   static client -> HumidityService:
     return (clients.HumidityService).open as any

@@ -13,7 +13,7 @@ interface TemperatureService:
       --minor=0
 
   read -> float
-  static READ_INDEX ::= 0
+  static READ-INDEX ::= 0
 
   static client -> TemperatureService:
     return (clients.TemperatureService).open as any

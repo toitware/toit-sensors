@@ -6,13 +6,13 @@ import system.services
 import ..humidity as api
 
 interface HumidityProvider:
-  humidity_read -> float
+  humidity-read -> float
 
 class TemperatureServiceHandler implements services.ServiceHandler:
   provider/HumidityProvider
   constructor .provider:
 
   handle index/int arguments/any --gid/int --client/int -> any:
-    if index == api.HumidityService.READ_INDEX:
-      return provider.humidity_read
+    if index == api.HumidityService.READ-INDEX:
+      return provider.humidity-read
     unreachable
