@@ -11,7 +11,7 @@ interface HumiditySensor:
 abstract class HumidityProvider extends services.ServiceProvider implements services.ServiceHandler:
   constructor name/string --major/int --minor/int --patch/int=0 --tags=null:
     super name --major=major --minor=minor --patch=patch --tags=tags
-    provides api.HumidityService.SELECTOR --handler=this
+    provides api.SELECTOR --handler=this
 
   constructor name/string --sensor/HumiditySensor --major/int --minor/int --patch/int=0 --tags=null:
     return HumidityProvider_ name --sensor=sensor --major=major --minor=minor --patch=patch --tags=tags
@@ -19,7 +19,7 @@ abstract class HumidityProvider extends services.ServiceProvider implements serv
   abstract humidity-read -> float
 
   handle index/int arguments/any --gid/int --client/int -> any:
-    if index == api.HumidityService.READ-INDEX:
+    if index == api.READ-INDEX:
       return humidity-read
     unreachable
 

@@ -11,7 +11,7 @@ interface TemperatureSensor:
 abstract class TemperatureProvider extends services.ServiceProvider implements services.ServiceHandler:
   constructor name/string --major/int --minor/int --patch/int=0 --tags=null:
     super name --major=major --minor=minor --patch=patch --tags=tags
-    provides api.TemperatureService.SELECTOR --handler=this
+    provides api.SELECTOR --handler=this
 
   constructor name/string --sensor/TemperatureSensor --major/int --minor/int --patch/int=0 --tags=null:
     return TemperatureProvider_ name --sensor=sensor --major=major --minor=minor --patch=patch --tags=tags
@@ -19,7 +19,7 @@ abstract class TemperatureProvider extends services.ServiceProvider implements s
   abstract temperature-read -> float
 
   handle index/int arguments/any --gid/int --client/int -> any:
-    if index == api.TemperatureService.READ-INDEX:
+    if index == api.READ-INDEX:
       return temperature-read
     unreachable
 
