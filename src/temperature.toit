@@ -13,6 +13,8 @@ interface TemperatureService:
       --minor=0
 
   read -> float
+  close -> none
+
   static READ-INDEX ::= 0
 
   static client -> TemperatureService:

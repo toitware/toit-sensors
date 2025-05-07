@@ -13,6 +13,8 @@ interface HumidityService:
       --minor=0
 
   read -> float
+  close -> none
+
   static READ-INDEX ::= 0
 
   static client -> HumidityService:
