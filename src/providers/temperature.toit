@@ -6,13 +6,13 @@ import system.services
 import ..temperature as api
 
 interface TemperatureProvider:
-  temperature_read -> float
+  temperature-read -> float
 
 class TemperatureServiceHandler implements services.ServiceHandler:
   provider/TemperatureProvider
   constructor .provider:
 
   handle index/int arguments/any --gid/int --client/int -> any:
-    if index == api.TemperatureService.READ_INDEX:
-      return provider.temperature_read
+    if index == api.TemperatureService.READ-INDEX:
+      return provider.temperature-read
     unreachable

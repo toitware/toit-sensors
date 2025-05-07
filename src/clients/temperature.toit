@@ -12,4 +12,4 @@ class TemperatureService extends services.ServiceClient implements api.Temperatu
     super selector
 
   read -> float:
-    return invoke_ api.TemperatureService.READ_INDEX null
+    return invoke_ api.TemperatureService.READ-INDEX null
