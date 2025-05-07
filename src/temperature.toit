@@ -13,9 +13,29 @@ SELECTOR ::= services.ServiceSelector
 
 READ-INDEX ::= 0
 
+/**
+A service that provides temperature readings.
+*/
 interface TemperatureService:
+  /**
+  Opens a new client for the temperature service.
+
+  Requires that a TemperatureProvider is installed.
+  */
   constructor:
     return (clients.TemperatureService).open as any
 
+  /**
+  Reads the temperature in Celsius.
+
+  Use the following formula to convert from Celsius to Fahrenheit:
+  ```
+  fahrenheit := (celsius * (9.0 / 5.0)) + 32.0
+  ```
+  */
   read -> float
+
+  /**
+  Closes the service.
+  */
   close -> none

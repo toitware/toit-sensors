@@ -13,9 +13,23 @@ SELECTOR ::= services.ServiceSelector
 
 READ-INDEX ::= 0
 
+/**
+A service that provides humidity readings.
+*/
 interface HumidityService:
+  /**
+  Opens a new client for the humidity service.
+  Requires that a HumidityProvider is installed.
+  */
   constructor:
     return (clients.HumidityService).open as any
 
+  /**
+  Reads the humidity in percentage.
+  */
   read -> float
+
+  /**
+  Closes the service.
+  */
   close -> none
