@@ -24,29 +24,23 @@ class TemperatureHumiditySensor implements providers.HumiditySensor providers.Te
 
 main:
   sensor/TemperatureHumiditySensor? := null
-  count := 0
-  open := ::
-    if not sensor: sensor = TemperatureHumiditySensor
-    count++
-    sensor
-  close := ::
-    count--
-    if count == 0:
-      sensor.close
-      sensor = null
-  provider-temperature := providers.TemperatureProvider NAME
+  provider := providers.Provider NAME
       --major=MAJOR
       --minor=MINOR
-      --open=open
-      --close=close
-  provider-humidity := providers.HumidityProvider NAME
-      --major=MAJOR
-      --minor=MINOR
-      --open=open
-      --close=close
-  provider-temperature.install
-  provider-humidity.install
+      --open=::
+        sensor = TemperatureHumiditySensor
+        sensor
+      --close=::
+        it.close
+        sensor = null
+      --handlers=[
+        providers.HumidityHandler,
+        providers.TemperatureHandler
+      ]
+  provider.install
+  expect-null sensor
   client-humidity := sensors.HumidityService
+  expect-not-null sensor
   expect-equals 499.0 client-humidity.read
   client-temperature := sensors.TemperatureService
   expect-equals 42.0 client-temperature.read
@@ -57,5 +51,4 @@ main:
   client-temperature.close
   expect-null sensor
   expect tmp-sensor.is-closed
-  provider-humidity.uninstall
-  provider-temperature.uninstall
+  provider.uninstall

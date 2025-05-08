@@ -21,41 +21,30 @@ class TemperatureHumiditySensor implements providers.HumiditySensor providers.Te
   temperature-read -> float:
     return 42.0
 
-start-provider:
-  sensor/TemperatureHumiditySensor? := null
-  count := 0
-  open := ::
-    if not sensor: sensor = TemperatureHumiditySensor
-    count++
-    sensor
-  close := ::
-    count--
-    if count == 0:
-      sensor = null
-  provider-temperature := providers.TemperatureProvider NAME
+install -> providers.Provider:
+  provider := providers.Provider NAME
       --major=MAJOR
       --minor=MINOR
-      --open=open
-      --close=close
-  provider-humidity := providers.HumidityProvider NAME
-      --major=MAJOR
-      --minor=MINOR
-      --open=open
-      --close=close
-  provider-temperature.install
-  provider-humidity.install
-
-  // Stop the spawned process after 1 second.
-  sleep --ms=1000
-  provider-humidity.uninstall
-  provider-temperature.uninstall
+      --open=:: TemperatureHumiditySensor
+      --close=:: it.close
+      --handlers=[
+        providers.HumidityHandler,
+        providers.TemperatureHandler
+      ]
+  provider.install
+  return provider
 
 main:
   // Spawn a new process that is independent of this one. No memory
   // is shared between the two processes.
   // Typically, the provider is in a different container and doesn't share
   // code with the client side.
-  spawn:: start-provider
+  spawn::
+    provider := install
+        // Stop the spawned process after 1 second.
+    sleep --ms=1000
+    provider.uninstall
+
   // Give the spawned process time to run.
   yield
   client-humidity := sensors.HumidityService
