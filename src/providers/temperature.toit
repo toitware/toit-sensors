@@ -30,5 +30,3 @@ class TemperatureProvider_ extends TemperatureProvider:
 
   temperature-read -> float:
     return sensor.temperature-read
-
-
