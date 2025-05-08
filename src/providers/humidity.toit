@@ -13,8 +13,8 @@ abstract class HumidityProvider extends services.ServiceProvider implements serv
     super name --major=major --minor=minor --patch=patch --tags=tags
     provides api.SELECTOR --handler=this
 
-  constructor name/string --sensor/HumiditySensor --major/int --minor/int --patch/int=0 --tags=null:
-    return HumidityProvider_ name --sensor=sensor --major=major --minor=minor --patch=patch --tags=tags
+  constructor name/string --open/Lambda --close/Lambda --major/int --minor/int --patch/int=0 --tags=null:
+    return HumidityProvider_ name --open=open --close=close --major=major --minor=minor --patch=patch --tags=tags
 
   abstract humidity-read -> float
 
@@ -24,9 +24,25 @@ abstract class HumidityProvider extends services.ServiceProvider implements serv
     unreachable
 
 class HumidityProvider_ extends HumidityProvider:
-  sensor/HumiditySensor
-  constructor name/string --.sensor --major/int --minor/int --patch/int=0 --tags=null:
+  sensor_/HumiditySensor? := null
+  open_/Lambda
+  close_/Lambda
+  count_/int := 0
+
+  constructor name/string --open/Lambda --close/Lambda --major/int --minor/int --patch/int=0 --tags=null:
+    open_ = open
+    close_ = close
     super name --major=major --minor=minor --patch=patch --tags=tags
 
+  on-opened client/int -> none:
+    super client
+    if count_ == 0:
+      sensor_ = open_.call
+    count_++
+  on-closed client/int -> none:
+    count_--
+    if count_ == 0:
+      close_.call sensor_
+      sensor_ = null
   humidity-read -> float:
-    return sensor.humidity-read
+    return sensor_.humidity-read
