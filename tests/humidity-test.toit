@@ -30,7 +30,7 @@ main:
   provider1.uninstall
 
   provider2 := providers.HumidityProvider NAME
-      --sensor=(HumiditySensor)
+      --sensor=HumiditySensor
       --major=MAJOR
       --minor=MINOR
   provider2.install

@@ -30,5 +30,3 @@ class HumidityProvider_ extends HumidityProvider:
 
   humidity-read -> float:
     return sensor.humidity-read
-
-

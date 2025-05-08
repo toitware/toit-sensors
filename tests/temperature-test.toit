@@ -30,7 +30,7 @@ main:
   provider1.uninstall
 
   provider2 := providers.TemperatureProvider NAME
-      --sensor=(TemperatureSensor)
+      --sensor=TemperatureSensor
       --major=MAJOR
       --minor=MINOR
   provider2.install
