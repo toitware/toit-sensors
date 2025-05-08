@@ -24,7 +24,7 @@ class TemperatureSensor implements providers.TemperatureSensor:
 main:
   provider1 := TemperatureProvider
   provider1.install
-  client := sensors.TemperatureService.client
+  client := sensors.TemperatureService
   expect-equals 42.0 client.read
   client.close
   provider1.uninstall
@@ -34,7 +34,7 @@ main:
       --major=MAJOR
       --minor=MINOR
   provider2.install
-  client = sensors.TemperatureService.client
+  client = sensors.TemperatureService
   expect-equals 499.0 client.read
   client.close
   provider2.uninstall

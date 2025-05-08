@@ -6,16 +6,16 @@ import system.services
 
 import .clients.humidity as clients
 
+SELECTOR ::= services.ServiceSelector
+    --uuid="6e8ad988-ea25-4e65-bca3-3e3ee1762b85"
+    --major=1
+    --minor=0
+
+READ-INDEX ::= 0
+
 interface HumidityService:
-  static SELECTOR ::= services.ServiceSelector
-      --uuid="6e8ad988-ea25-4e65-bca3-3e3ee1762b85"
-      --major=1
-      --minor=0
+  constructor:
+    return (clients.HumidityService).open as any
 
   read -> float
   close -> none
-
-  static READ-INDEX ::= 0
-
-  static client -> HumidityService:
-    return (clients.HumidityService).open as any
