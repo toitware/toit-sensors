@@ -5,14 +5,28 @@
 import system.services
 import ..temperature as api
 
-interface TemperatureProvider:
+interface TemperatureSensor:
   temperature-read -> float
 
-class TemperatureServiceHandler implements services.ServiceHandler:
-  provider/TemperatureProvider
-  constructor .provider:
+abstract class TemperatureProvider extends services.ServiceProvider implements services.ServiceHandler:
+  constructor name/string --major/int --minor/int --patch/int=0 --tags=null:
+    super name --major=major --minor=minor --patch=patch --tags=tags
+    provides api.TemperatureService.SELECTOR --handler=this
+
+  constructor name/string --sensor/TemperatureSensor --major/int --minor/int --patch/int=0 --tags=null:
+    return TemperatureProvider_ name --sensor=sensor --major=major --minor=minor --patch=patch --tags=tags
+
+  abstract temperature-read -> float
 
   handle index/int arguments/any --gid/int --client/int -> any:
     if index == api.TemperatureService.READ-INDEX:
-      return provider.temperature-read
+      return temperature-read
     unreachable
+
+class TemperatureProvider_ extends TemperatureProvider:
+  sensor/TemperatureSensor
+  constructor name/string --.sensor --major/int --minor/int --patch/int=0 --tags=null:
+    super name --major=major --minor=minor --patch=patch --tags=tags
+
+  temperature-read -> float:
+    return sensor.temperature-read
