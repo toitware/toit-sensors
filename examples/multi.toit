@@ -2,19 +2,20 @@
 // Use of this source code is governed by a Zero-Clause BSD license that can
 // be found in the examples/LICENSE file.
 
-import sensors
+import sensors.humidity
 import sensors.providers
+import sensors.temperature
 
 /**
 This example demonstrates how a sensor can provide multiple services
-  at the same time. It implements a temperature and humidity sensor
+  at the same time. It implements a temperature and humidity sensor.
 */
 
-NAME ::= "toitware/sensors/example/temperature-humidity"
+NAME ::= "toit.io/sensors/example/temperature-humidity"
 MAJOR ::= 1
 MINOR ::= 0
 
-class TemperatureHumiditySensor implements providers.HumiditySensor providers.TemperatureSensor:
+class TemperatureHumiditySensor implements providers.HumiditySensor-v1 providers.TemperatureSensor-v1:
   humidity-read -> float:
     return 499.0
 
@@ -28,8 +29,8 @@ install -> providers.Provider:
       --open=:: TemperatureHumiditySensor
       --close=:: it.close
       --handlers=[
-        providers.HumidityHandler,
-        providers.TemperatureHandler
+        providers.HumidityHandler-v1,
+        providers.TemperatureHandler-v1
       ]
   provider.install
   return provider
@@ -47,8 +48,8 @@ main:
 
   // Give the spawned process time to run.
   yield
-  client-humidity := sensors.HumidityService
-  client-temperature := sensors.TemperatureService
+  client-humidity := humidity.v1
+  client-temperature := temperature.v1
   print "Humidity: $client-humidity.read"
   print "Temperature: $client-temperature.read"
   client-humidity.close

@@ -3,14 +3,15 @@
 // be found in the tests/LICENSE file.
 
 import expect show *
-import sensors
+import sensors.humidity
 import sensors.providers
+import sensors.temperature
 
 NAME ::= "toitware/sensors/test/temperature-humidity"
 MAJOR ::= 1
 MINOR ::= 0
 
-class TemperatureHumiditySensor implements providers.HumiditySensor providers.TemperatureSensor:
+class TemperatureHumiditySensor implements providers.HumiditySensor-v1 providers.TemperatureSensor-v1:
   is-closed/bool := false
 
   close -> none:
@@ -34,15 +35,15 @@ main:
         it.close
         sensor = null
       --handlers=[
-        providers.HumidityHandler,
-        providers.TemperatureHandler
+        providers.HumidityHandler-v1,
+        providers.TemperatureHandler-v1
       ]
   provider.install
   expect-null sensor
-  client-humidity := sensors.HumidityService
+  client-humidity := humidity.v1
   expect-not-null sensor
   expect-equals 499.0 client-humidity.read
-  client-temperature := sensors.TemperatureService
+  client-temperature := temperature.v1
   expect-equals 42.0 client-temperature.read
   client-humidity.close
   expect-not sensor.is-closed

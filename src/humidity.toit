@@ -2,28 +2,18 @@
 // Use of this source code is governed by an MIT-style license that can be
 // found in the LICENSE file.
 
-import system.services
-
 import .clients.humidity as clients
 
-SELECTOR ::= services.ServiceSelector
-    --uuid="6e8ad988-ea25-4e65-bca3-3e3ee1762b85"
-    --major=1
-    --minor=0
-
-READ-INDEX ::= 0
+/**
+Opens a new client for the humidity service.
+Requires that a HumidityProvider is installed.
+*/
+v1 -> HumidityService-v1: return (clients.HumidityService-v1).open as any
 
 /**
 A service that provides humidity readings.
 */
-interface HumidityService:
-  /**
-  Opens a new client for the humidity service.
-  Requires that a HumidityProvider is installed.
-  */
-  constructor:
-    return (clients.HumidityService).open as any
-
+interface HumidityService-v1:
   /**
   Reads the humidity in percentage.
   */

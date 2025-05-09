@@ -4,15 +4,15 @@
 
 import system.services
 import .handler-base_
-import ..humidity as api
+import ..apis.humidity as api
 
-interface HumiditySensor:
+interface HumiditySensor-v1:
   humidity-read -> float
 
-class HumidityHandler extends Handler_:
-  selector -> services.ServiceSelector: return api.SELECTOR
+class HumidityHandler-v1 extends Handler_:
+  selector -> services.ServiceSelector: return api.SELECTOR-v1
 
   handle index/int arguments/any --gid/int --client/int -> any:
-    if index == api.READ-INDEX:
-      return (sensor_ as HumiditySensor).humidity-read
+    if index == api.READ-INDEX-v1:
+      return (sensor_ as HumiditySensor-v1).humidity-read
     unreachable
