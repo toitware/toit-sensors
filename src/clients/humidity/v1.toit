@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import system.services
-import ....humidity.v1-0 as api
+import ...humidity.v1 as api
 
 class HumidityService extends services.ServiceClient implements api.HumidityService:
   static SELECTOR ::= api.SELECTOR

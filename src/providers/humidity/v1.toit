@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import system.services
-import ...handler-base_
-import ....humidity.v1-0 as api
+import ..handler-base_
+import ...humidity.v1 as api
 
 interface HumiditySensor:
   humidity-read -> float
