@@ -3,7 +3,7 @@
 // be found in the tests/LICENSE file.
 
 import expect show *
-import sensors
+import sensors.humidity.v1-0 as humidity-sensor
 import sensors.providers
 
 NAME ::= "toitware/sensors/test/humidity"
@@ -33,7 +33,7 @@ main:
       --handlers=[providers.HumidityHandler]
   provider.install
   expect-null sensor
-  client := sensors.HumidityService
+  client := humidity-sensor.Client
   expect-not-null sensor
   expect-not sensor.is-closed
   expect-equals 499.0 client.read
@@ -41,7 +41,7 @@ main:
   client.close
   expect-null sensor
   expect tmp.is-closed
-  client = sensors.HumidityService
+  client = humidity-sensor.Client
   expect-not-null sensor
   expect-not sensor.is-closed
   expect-equals 499.0 client.read

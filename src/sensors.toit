@@ -4,5 +4,3 @@
 
 import .humidity show HumidityService
 import .temperature show TemperatureService
-
-export *

@@ -4,7 +4,7 @@
 
 import system.services
 
-import .clients.humidity as clients
+import ...clients.humidity.v1-0 as clients
 
 SELECTOR ::= services.ServiceSelector
     --uuid="6e8ad988-ea25-4e65-bca3-3e3ee1762b85"
@@ -16,7 +16,7 @@ READ-INDEX ::= 0
 /**
 A service that provides humidity readings.
 */
-interface HumidityService:
+interface Client:
   /**
   Opens a new client for the humidity service.
   Requires that a HumidityProvider is installed.
