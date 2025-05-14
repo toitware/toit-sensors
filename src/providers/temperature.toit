@@ -7,7 +7,7 @@ import .handler-base_
 import ..apis.temperature as api
 
 interface TemperatureSensor-v1:
-  temperature-read -> float
+  temperature-read -> float?
 
 class TemperatureHandler-v1 extends Handler_:
   selector -> services.ServiceSelector: return api.SELECTOR-v1
