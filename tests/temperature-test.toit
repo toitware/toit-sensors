@@ -3,14 +3,14 @@
 // be found in the tests/LICENSE file.
 
 import expect show *
-import sensors
+import sensors.temperature
 import sensors.providers
 
 NAME ::= "toitware/sensors/test/temperature"
 MAJOR ::= 1
 MINOR ::= 0
 
-class TemperatureSensor implements providers.TemperatureSensor:
+class TemperatureSensor implements providers.TemperatureSensor-v1:
   is-closed/bool := false
 
   temperature-read -> float:
@@ -30,10 +30,10 @@ main:
       --close=::
         it.close
         sensor = null
-      --handlers=[providers.TemperatureHandler]
+      --handlers=[providers.TemperatureHandler-v1]
   provider.install
   expect-null sensor
-  client := sensors.TemperatureService
+  client := temperature.v1
   expect-not-null sensor
   expect-not sensor.is-closed
   expect-equals 499.0 client.read
@@ -41,7 +41,7 @@ main:
   client.close
   expect-null sensor
   expect tmp.is-closed
-  client = sensors.TemperatureService
+  client = temperature.v1
   expect-not-null sensor
   expect-not sensor.is-closed
   expect-equals 499.0 client.read
