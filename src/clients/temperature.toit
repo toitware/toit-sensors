@@ -12,5 +12,5 @@ class TemperatureService extends services.ServiceClient implements client.Temper
     assert: selector.matches SELECTOR
     super selector
 
-  read -> float:
+  read -> float?:
     return invoke_ api.READ-INDEX-v1 null

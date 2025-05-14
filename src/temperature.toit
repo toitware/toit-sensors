@@ -20,12 +20,15 @@ interface TemperatureService-v1:
   /**
   Reads the temperature in Celsius.
 
+  Returns null if the value is not available. Typically, this means that the
+    temperature is out of range.
+
   Use the following formula to convert from Celsius to Fahrenheit:
   ```
   fahrenheit := (celsius * (9.0 / 5.0)) + 32.0
   ```
   */
-  read -> float
+  read -> float?
 
   /**
   Closes the service.

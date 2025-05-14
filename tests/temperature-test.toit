@@ -12,8 +12,10 @@ MINOR ::= 0
 
 class TemperatureSensor implements providers.TemperatureSensor-v1:
   is-closed/bool := false
+  should-return-null/bool := false
 
-  temperature-read -> float:
+  temperature-read -> float?:
+    if should-return-null: return null
     return 499.0
 
   close -> none:
@@ -45,6 +47,8 @@ main:
   expect-not-null sensor
   expect-not sensor.is-closed
   expect-equals 499.0 client.read
+  sensor.should-return-null = true
+  expect-null client.read
   tmp = sensor
   client.close
   expect-null sensor
