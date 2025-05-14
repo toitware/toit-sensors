@@ -24,7 +24,7 @@ class HumiditySensor implements providers.HumiditySensor:
 main:
   provider1 := HumidityProvider
   provider1.install
-  client := sensors.HumidityService.client
+  client := sensors.HumidityService
   expect-equals 42.0 client.read
   client.close
   provider1.uninstall
@@ -34,7 +34,7 @@ main:
       --major=MAJOR
       --minor=MINOR
   provider2.install
-  client = sensors.HumidityService.client
+  client = sensors.HumidityService
   expect-equals 499.0 client.read
   client.close
   provider2.uninstall
