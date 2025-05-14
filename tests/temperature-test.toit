@@ -15,8 +15,7 @@ class TemperatureSensor implements providers.TemperatureSensor-v1:
   should-return-null/bool := false
 
   temperature-read -> float?:
-    if should-return-null: return null
-    return 499.0
+    return should-return-null ? null : 499.0
 
   close -> none:
     is-closed = true
