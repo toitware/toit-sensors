@@ -11,6 +11,11 @@ MAJOR ::= 1
 MINOR ::= 0
 
 class TemperatureHumiditySensor implements providers.HumiditySensor providers.TemperatureSensor:
+  is-closed/bool := false
+
+  close -> none:
+    is-closed = true
+
   humidity-read -> float:
     return 499.0
 
@@ -18,22 +23,39 @@ class TemperatureHumiditySensor implements providers.HumiditySensor providers.Te
     return 42.0
 
 main:
-  sensor := TemperatureHumiditySensor
+  sensor/TemperatureHumiditySensor? := null
+  count := 0
+  open := ::
+    if not sensor: sensor = TemperatureHumiditySensor
+    count++
+    sensor
+  close := ::
+    count--
+    if count == 0:
+      sensor.close
+      sensor = null
   provider-temperature := providers.TemperatureProvider NAME
-      --sensor=sensor
       --major=MAJOR
       --minor=MINOR
-  provider-temperature.install
+      --open=open
+      --close=close
   provider-humidity := providers.HumidityProvider NAME
-      --sensor=sensor
       --major=MAJOR
       --minor=MINOR
+      --open=open
+      --close=close
+  provider-temperature.install
   provider-humidity.install
   client-humidity := sensors.HumidityService
   expect-equals 499.0 client-humidity.read
   client-temperature := sensors.TemperatureService
   expect-equals 42.0 client-temperature.read
   client-humidity.close
+  expect-not sensor.is-closed
+  tmp-sensor := sensor
+  expect-equals 42.0 client-temperature.read
   client-temperature.close
+  expect-null sensor
+  expect tmp-sensor.is-closed
   provider-humidity.uninstall
   provider-temperature.uninstall

@@ -18,8 +18,14 @@ class TemperatureProvider extends providers.TemperatureProvider:
     return 42.0
 
 class TemperatureSensor implements providers.TemperatureSensor:
+  is-closed/bool := false
+
   temperature-read -> float:
     return 499.0
+
+  close -> none:
+    is-closed = true
+
 
 main:
   provider1 := TemperatureProvider
@@ -29,12 +35,19 @@ main:
   client.close
   provider1.uninstall
 
+  sensor := TemperatureSensor
   provider2 := providers.TemperatureProvider NAME
-      --sensor=TemperatureSensor
+      --open=:: sensor
+      --close=:: it.close
       --major=MAJOR
       --minor=MINOR
   provider2.install
   client = sensors.TemperatureService
+  client2 := sensors.TemperatureService
   expect-equals 499.0 client.read
   client.close
+  expect-not sensor.is-closed
+  expect-equals 499.0 client2.read
+  client2.close
+  expect sensor.is-closed
   provider2.uninstall
