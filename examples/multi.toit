@@ -42,7 +42,7 @@ main:
   // code with the client side.
   spawn::
     provider := install
-        // Stop the spawned process after 1 second.
+    // Stop the spawned process after 1 second.
     sleep --ms=1000
     provider.uninstall
 
