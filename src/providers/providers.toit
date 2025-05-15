@@ -4,8 +4,10 @@
 
 import system.services
 
+import .distance
 import .handler-base_
 import .humidity
+import .pressure
 import .temperature
 
 export *
